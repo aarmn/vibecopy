@@ -1,0 +1,56 @@
+// .vscode/launch.json
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			// --- Configuration for Desktop (Electron) VS Code ---
+			"name": "Run Desktop Extension", // Clearer name
+			"type": "extensionHost", // Correct type for desktop extension host
+			// "debugWebWorkerHost": true, // REMOVED - Not needed for desktop
+			"request": "launch",
+			"args": [
+				// Only need the path, not the kind=web flag
+				"--extensionDevelopmentPath=${workspaceFolder}"
+				// REMOVED: "--extensionDevelopmentKind=web"
+			],
+			"outFiles": [
+				// Points to your compiled JS output - KEEP THIS
+				"${workspaceFolder}/dist/web/**/*.js"
+			],
+			// Use your specific one-off compile task label from tasks.json
+			// This ensures the code is built before launching
+			"preLaunchTask": "compile"
+		},
+		// --- Optional: Configuration for Desktop Extension Tests ---
+		// {
+		// 	"name": "Desktop Extension Tests",
+		// 	"type": "extensionHost",
+		// 	"request": "launch",
+		// 	"args": [
+		// 		"--extensionDevelopmentPath=${workspaceFolder}",
+		// 		// Point to your compiled *desktop* test runner entry point if different
+		// 		"--extensionTestsPath=${workspaceFolder}/dist/web/test/suite/index" // Adjust if needed
+		// 	],
+		// 	"outFiles": [
+		// 		"${workspaceFolder}/dist/web/**/*.js" // Include test files pattern if separate
+		// 	],
+		// 	"preLaunchTask": "compile" // Or a task specific to building tests
+		// },
+		// --- Original Web Test Configuration (Commented out for clarity) ---
+		// {
+		// 	"name": "Web Extension Tests (Original)",
+		// 	"type": "extensionHost",
+		// 	"debugWebWorkerHost": true,
+		// 	"request": "launch",
+		// 	"args": [
+		// 		"--extensionDevelopmentPath=${workspaceFolder}",
+		// 		"--extensionDevelopmentKind=web",
+		// 		"--extensionTestsPath=${workspaceFolder}/dist/web/test/suite/extensionTests" // Assumes this is web test entry
+		// 	],
+		// 	"outFiles": [
+		// 		"${workspaceFolder}/dist/web/**/*.js"
+		// 	],
+		// 	"preLaunchTask": "compile" // Or "${defaultBuildTask}" if watch-web is default
+		// }
+	]
+}

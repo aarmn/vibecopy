@@ -1,0 +1,57 @@
+// .vscode/tasks.json - (No changes needed based on launch.json update)
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			// This 'watch-web' is the default build task, good for dev,
+			// but the launch config now uses 'compile' explicitly.
+			"label": "watch-web",
+			"dependsOn": [
+				"npm: watch-web:tsc",
+				"npm: watch-web:esbuild"
+			],
+			"presentation": {
+				"reveal": "never"
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true // This being default is fine, launch overrides it
+			}
+		},
+		{
+			"type": "npm",
+			"script": "watch-web:esbuild",
+			"group": "build",
+			"problemMatcher": "$esbuild-watch",
+			"isBackground": true,
+			"label": "npm: watch-web:esbuild",
+			"presentation": {
+				"group": "watch",
+				"reveal": "never"
+			}
+		},
+		{
+			"type": "npm",
+			"script": "watch-web:tsc",
+			"group": "build",
+			"problemMatcher": "$tsc-watch",
+			"isBackground": true,
+			"label": "npm: watch-web:tsc",
+			"presentation": {
+				"group": "watch",
+				"reveal": "never"
+			}
+		},
+		{
+			// This is the task we referenced in launch.json's preLaunchTask
+			"label": "compile",
+			"type": "npm",
+			"script": "compile-web", // Runs 'check-types', 'lint', 'node esbuild.js'
+			"problemMatcher": [
+				"$tsc", // Assuming check-types uses tsc matcher
+				"$esbuild"
+			],
+			"group": "build" // Added group for consistency (optional)
+		}
+	]
+}

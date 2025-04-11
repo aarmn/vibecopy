@@ -1,0 +1,6 @@
+  "main": "./dist/extension.js",
+  "icon": "images/icon.png",
+
+  markdown ```
+  formatting
+  copy

@@ -1,0 +1,65 @@
+{
+  "name": "vibecopy",
+  "displayName": "VibeCopy",
+  "description": "copy multiple files to context, for a faster proompting and vibe-coding experience. select files in sidebar, right click, and get the ready with path!",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.99.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "browser": "./dist/web/extension.js",
+  "main": "./dist/web/extension.js",
+  "publisher": "aarmn",
+  "repository": { 
+    "type": "git",
+    "url": "https://github.com/aarmn/vibecopy.git"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.openSelectedAsMarkdown",
+        "title": "Open Selected as Markdown"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "extension.openSelectedAsMarkdown",
+          "group": "navigation@5"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/extensionTests.js",
+    "pretest": "pnpm run compile-web",
+    "vscode:prepublish": "pnpm run package-web",
+    "compile-web": "pnpm run check-types && pnpm run lint && node esbuild.js",
+    "watch-web": "npm-run-all -p watch-web:*",
+    "watch-web:esbuild": "node esbuild.js --watch",
+    "watch-web:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package-web": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. ."
+  },
+  "devDependencies": {
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
+    "@types/assert": "^1.5.11",
+    "@types/mocha": "^10.0.10",
+    "@types/vscode": "^1.99.1",
+    "@typescript-eslint/eslint-plugin": "^8.29.1",
+    "@typescript-eslint/parser": "^8.29.1",
+    "@vscode/test-web": "^0.0.68",
+    "assert": "^2.1.0",
+    "esbuild": "^0.25.2",
+    "eslint": "^9.24.0",
+    "glob": "^11.0.1",
+    "mocha": "^11.1.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.8.3"
+  }
+}
