@@ -6,6 +6,7 @@
   "engines": {
     "vscode": "^1.99.0"
   },
+  "license": "MIT",
   "categories": [
     "Other"
   ],
@@ -60,6 +61,7 @@
     "check-types": "tsc --noEmit",
     "lint": "eslint src",
     "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. .",
+    "run-in-firefox": "vscode-test-web --browserType=firefox --extensionDevelopmentPath=. .",
     "run-desktop-debug": "echo '>>> To debug the Desktop version: Ensure you ran `pnpm compile` first, then press F5 in VS Code. <<<'"
   },
   "devDependencies": {

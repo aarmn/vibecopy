@@ -1,0 +1,107 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js install
+
+PATH: 
+  C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\Python312\Scripts\;C:\Program Files\Python312\;C:\Program Files (x86)\VMware\VMware Workstation\bin\;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.1\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.1\libnvvp;C:\Program Files\Eclipse Adoptium\jdk-11.0.15.10-hotspot\bin;C:\Program Files\Microsoft\jdk-11.0.16.101-hotspot\bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\ActiveState Komodo IDE 12\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\CMake\bin;C:\Program Files\gsudo\Current;C:\Program Files\Neovide\;C:\Program Files\nu\bin\;C:\Program Files\GitHub CLI\;C:\Users\aarmn\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files (x86)\Yarn\bin\;C:\ProgramData\chocolatey\bin;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\dotnet\;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files (x86)\IncrediBuild;C:\Program Files\WezTerm;C:\Program Files\NVIDIA Corporation\Nsight Compute 2023.1.0\;C:\Users\aarmn\.wasmer\bin;C:\Users\aarmn\.wasmer\globals\wapm_packages\.bin;C:\Program Files\Microchip\xc8\v2.36\bin;D:\Program Files\Microchip\xc8\v2.36\bin;C:\Program Files\RedHat\Podman\;C:\Program Files\Kubernetes\Minikube;C:\Program Files (x86)\Common Files\Acronis\SnapAPI\;D:\flutter\bin;c:\Users\aarmn\AppData\Local\Programs\cursor\resources\app\bin;C:\Program Files\Mullvad VPN\resources;d:\Aldec\Active-HDL-13-x64\bin;C:\Program Files\usbipd-win\;C:\Program Files\nodejs\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\PowerShell\7-preview\preview;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\Program Files (x86)\Bitvise SSH Client;C:\Program Files\WiX Toolset v5.0\bin\;C:\Program Files\Docker\Docker\resources\bin;C:\Users\aarmn\AppData\Local\pnpm;C:\Users\aarmn\.local\bin;C:\Users\aarmn\scoop\apps\llvm\current\bin;C:\Users\aarmn\go\bin;C:\Users\aarmn\.console-ninja\.bin;C:\Users\aarmn\AppData\Local\ActiveState\StateTool\release\bin;C:\Users\aarmn\scoop\apps\mingw-winlibs\current\bin;C:\Users\aarmn\scoop\apps\kotlin-native\current\bin;C:\Users\aarmn\scoop\apps\haxe\current;C:\Users\aarmn\scoop\apps\graalvm22\current\bin;C:\Program Files\Conan\conan;C:\Program Files (x86)\Elm\0.19.1\bin;C:\Users\aarmn\scoop\apps\qemu\current;C:\Users\aarmn\scoop\apps\elixir\current\bin;C:\Users\aarmn\AppData\Local\Programs\Python\Launcher\;C:\Users\aarmn\scoop\apps\neko\current;C:\Users\aarmn\scoop\apps\aircrack-ng\current\bin;C:\Users\aarmn\.nimble\bin;C:\Users\aarmn\scoop\apps\python\current\Scripts;C:\Users\aarmn\scoop\apps\python\current;C:\Users\aarmn\scoop\shims;C:\Users\aarmn\.cargo\bin;C:\Users\aarmn\AppData\Local\activestate\cache\bin;C:\Users\aarmn\AppData\Local\ActiveState\StateTool\release\bin;C:\Users\aarmn\AppData\Local\Microsoft\WindowsApps;C:\Users\aarmn\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\aarmn\AppData\Local\GitHubDesktop\bin;C:\Users\aarmn\AppData\Local\Programs\Rancher Desktop\resources\resources\win32\bin;C:\Users\aarmn\AppData\Local\Programs\Rancher Desktop\resources\resources\linux\bin;C:\Users\aarmn\AppData\Local\Microsoft\WinGet\Packages\UPX.UPX_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\aarmn\AppData\Local\Microsoft\WinGet\Packages\Microsoft.NuGet_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\aarmn\AppData\Local\Programs\Neovim\bin;C:\Users\aarmn\AppData\Local\Microsoft\WinGet\Packages\Genymobile.scrcpy_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\aarmn\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\aarmn\AppData\Local\Yarn\bin;C:\Users\aarmn\.dotnet\tools;C:\Users\aarmn\AppData\Local\Microsoft\WinGet\Packages\Watfaq.PowerSession_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\aarmn\AppData\Local\Gource\cmd;C:\Users\aarmn\AppData\Local\Microsoft\WinGet\Packages\youtube-dl.youtube-dl_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\aarmn\AppData\Local\Microsoft\WinGet\Packages\MikeFarah.yq_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\aarmn\AppData\Local\Microsoft\WinGet\Packages\junegunn.fzf_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\aarmn\AppData\Local\Microsoft\WinGet\Packages\JFrog.Cli_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\aarmn\.wasmer\bin;C:\Users\aarmn\AppData\Local\Microsoft\WinGet\Packages\charmbracelet.gum_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\aarmn\AppData\Local\Programs\Microsoft VS Code Insiders\bin;D:\Program Files\JetBrains\DataGrip 2023.2\bin;C:\Users\aarmn\AppData\Local\Microsoft\WinGet\Links;d:\Program Files\JetBrains\RustRover 241.15989.180\bin;C:\Program Files\Graphviz\bin;C:\Users\aarmn\AppData\Local\JetBrains\Toolbox\scripts;C:\Users\aarmn\.fly\bin;C:\Users\aarmn\AppData\Roaming\npm;C:\Users\aarmn\.bun\bin;D:\MiKTeX\miktex\bin\x64\;C:\Program Files (x86)\Nmap;C:\Users\aarmn\AppData\Local\Programs\Ollama;C:\Program Files\Multipass\bin;C:\Program Files\Sublime Text;C:\Users\aarmn\AppData\Local\Programs\cursor\resources\app\bin;D:\Program Files\Windsurf\bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  20.15.1
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: ENOENT: no such file or directory, copyfile 'C:\Users\aarmn\AppData\Local\Yarn\Cache\v6\npm-glob-parent-6.0.2-6d237d99083950c79290f24c7642a3de9a28f9e3-integrity\node_modules\glob-parent\index.js' -> 'C:\Users\aarmn\sample\vibecopy\node_modules\eslint\node_modules\glob-parent\index.js'
+
+npm manifest: 
+  {
+    "name": "vibecopy",
+    "displayName": "VibeCopy",
+    "description": "copy multiple files to context, for a faster proompting and vibe-coding experience. select files in sidebar, right click, and get the ready with path!",
+    "version": "0.0.1",
+    "engines": {
+      "vscode": "^1.99.0"
+    },
+    "license": "MIT",
+    "categories": [
+      "Other"
+    ],
+    "activationEvents": [],
+    "browser": "./dist/web/extension.js",
+    "main": "./dist/node/extension.js",
+    "publisher": "aarmn",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/aarmn/vibecopy.git"
+    },
+    "contributes": {
+      "commands": [
+        {
+          "command": "vibecopy.openSelectedAsMarkdown",
+          "title": "VibeCopy: Open Selected as Markdown",
+          "category": "VibeCopy"
+        },
+        {
+          "command": "vibecopy.copySelectedAsMarkdown",
+          "title": "VibeCopy: Copy Selected as Markdown",
+          "category": "VibeCopy"
+        }
+      ],
+      "menus": {
+        "explorer/context": [
+          {
+            "command": "vibecopy.openSelectedAsMarkdown",
+            "group": "navigation@5"
+          },
+          {
+            "command": "vibecopy.copySelectedAsMarkdown",
+            "when": "!isWeb",
+            "group": "navigation@5"
+          }
+        ]
+      }
+    },
+    "scripts": {
+      "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
+      "watch": "npm-run-all -p watch:*",
+      "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+      "compile:web": "echo 'Running full compile...' && pnpm run compile",
+      "compile:node": "echo 'Running full compile...' && pnpm run compile",
+      "watch:esbuild": "node esbuild.js --watch",
+      "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+      "package:web": "echo 'Running full package...' && pnpm run package",
+      "package:node": "echo 'Running full package...' && pnpm run package",
+      "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/extensionTests.js",
+      "pretest": "pnpm run compile",
+      "vscode:prepublish": "pnpm run package",
+      "check-types": "tsc --noEmit",
+      "lint": "eslint src",
+      "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. .",
+      "run-desktop-debug": "echo '>>> To debug the Desktop version: Ensure you ran `pnpm compile` first, then press F5 in VS Code. <<<'"
+    },
+    "devDependencies": {
+      "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
+      "@types/assert": "^1.5.11",
+      "@types/mocha": "^10.0.10",
+      "@types/vscode": "^1.99.1",
+      "@typescript-eslint/eslint-plugin": "^8.29.1",
+      "@typescript-eslint/parser": "^8.29.1",
+      "@vscode/test-web": "^0.0.68",
+      "assert": "^2.1.0",
+      "esbuild": "^0.25.2",
+      "eslint": "^9.24.0",
+      "glob": "^11.0.1",
+      "mocha": "^11.1.0",
+      "npm-run-all": "^4.1.5",
+      "typescript": "^5.8.3"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

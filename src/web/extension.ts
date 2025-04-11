@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 
 // formatter, maybe, one day, not today tho, lol
+// zwj notice and add, cause it seems like its not working lol
 
 // --- Helper functions remain the same ---
 function getFileNameFromUri(uri: vscode.Uri): string {
@@ -41,11 +42,12 @@ async function generateMarkdownForFiles(urisToProcess: ReadonlyArray<vscode.Uri>
 
             const uint8Array = await vscode.workspace.fs.readFile(fileUri);
             const fileContent = decoder.decode(uint8Array);
+            const fileContentEscaped = fileContent.replaceAll('```', '`‌`‌`');
             const extension = getExtensionFromFilename(filename);
             const language = extension || 'plaintext';
             hasValidFiles = true;
             // Simple format for easier parsing if needed later
-            return `---\nfile: ${filename}\n\`\`\`${language}\n${fileContent}\n\`\`\`\n---`;
+            return `---\nfile: ${filename}\n\`\`\`${language}\n${fileContentEscaped}\n\`\`\`\n---`;
 
         } catch (error: unknown) {
             // Improved error logging
@@ -73,7 +75,6 @@ async function generateMarkdownForFiles(urisToProcess: ReadonlyArray<vscode.Uri>
     return formattedBlocks.join('\n'); // Simpler join, add surrounding '---' in command if desired
 }
 
-
 // --- Activation Function ---
 export function activate(context: vscode.ExtensionContext) {
 
@@ -97,7 +98,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         // Prepend/append '---' if desired for the final copied output
-        const finalOutput = `---\n${markdownContent}\n---`;
+        const finalOutput = `<codes>\n${markdownContent}\n</codes>`;
 
         try {
             await vscode.env.clipboard.writeText(finalOutput);
@@ -124,7 +125,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         // Prepend/append '---' if desired for the final editor content
-        const finalOutput = `<codes-list>\n${markdownContent}\n</codes-list>`;
+        const finalOutput = `<codes>\n${markdownContent}\n</codes>`;
 
         // This action works on both Web and Desktop
         try {
