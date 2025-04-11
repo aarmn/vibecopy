@@ -2,7 +2,7 @@
   "name": "vibecopy",
   "displayName": "VibeCopy",
   "description": "copy multiple files to context, for a faster proompting and vibe-coding experience. select files in sidebar, right click, and get the ready with path!",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.99.0"
   },
@@ -10,6 +10,10 @@
   "categories": [
     "Other"
   ],
+  "icon": "logo.png",
+  "sponsor": {
+    "url": "https://github.com/sponsors/aarmn"
+  },
   "activationEvents": [],
   "browser": "./dist/web/extension.js",
   "main": "./dist/node/extension.js",
