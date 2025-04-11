@@ -3,54 +3,66 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			// --- Configuration for Desktop (Electron) VS Code ---
-			"name": "Run Desktop Extension", // Clearer name
-			"type": "extensionHost", // Correct type for desktop extension host
-			// "debugWebWorkerHost": true, // REMOVED - Not needed for desktop
+			// --- Debug Desktop (Electron) Version ---
+			"name": "Run Extension (Desktop)",
+			"type": "extensionHost", // Special type for debugging VS Code extensions
 			"request": "launch",
 			"args": [
-				// Only need the path, not the kind=web flag
 				"--extensionDevelopmentPath=${workspaceFolder}"
-				// REMOVED: "--extensionDevelopmentKind=web"
 			],
+			// Tell debugger where to find source maps for YOUR node code
 			"outFiles": [
-				// Points to your compiled JS output - KEEP THIS
-				"${workspaceFolder}/dist/web/**/*.js"
+				"${workspaceFolder}/dist/node/**/*.js" // Include JS files too for stepping
+				// Source maps are usually inferred if next to JS, but explicit is safer
+				// "${workspaceFolder}/dist/node/**/*.js.map"
 			],
-			// Use your specific one-off compile task label from tasks.json
-			// This ensures the code is built before launching
-			"preLaunchTask": "compile"
+			// Run the default build task before launching
+			"preLaunchTask": "Compile Extension (Node & Web)"
 		},
-		// --- Optional: Configuration for Desktop Extension Tests ---
-		// {
-		// 	"name": "Desktop Extension Tests",
-		// 	"type": "extensionHost",
-		// 	"request": "launch",
-		// 	"args": [
-		// 		"--extensionDevelopmentPath=${workspaceFolder}",
-		// 		// Point to your compiled *desktop* test runner entry point if different
-		// 		"--extensionTestsPath=${workspaceFolder}/dist/web/test/suite/index" // Adjust if needed
-		// 	],
-		// 	"outFiles": [
-		// 		"${workspaceFolder}/dist/web/**/*.js" // Include test files pattern if separate
-		// 	],
-		// 	"preLaunchTask": "compile" // Or a task specific to building tests
-		// },
-		// --- Original Web Test Configuration (Commented out for clarity) ---
-		// {
-		// 	"name": "Web Extension Tests (Original)",
-		// 	"type": "extensionHost",
-		// 	"debugWebWorkerHost": true,
-		// 	"request": "launch",
-		// 	"args": [
-		// 		"--extensionDevelopmentPath=${workspaceFolder}",
-		// 		"--extensionDevelopmentKind=web",
-		// 		"--extensionTestsPath=${workspaceFolder}/dist/web/test/suite/extensionTests" // Assumes this is web test entry
-		// 	],
-		// 	"outFiles": [
-		// 		"${workspaceFolder}/dist/web/**/*.js"
-		// 	],
-		// 	"preLaunchTask": "compile" // Or "${defaultBuildTask}" if watch-web is default
-		// }
+		{
+            // --- Debug Web Version ---
+            // Uses @vscode/test-web CLI to launch a browser instance
+            "name": "Run Extension (Web)",
+            "type": "node", // We run the @vscode/test-web node script
+            "request": "launch",
+            "program": "${workspaceFolder}/node_modules/@vscode/test-web/cli.js",
+            "args": [
+                "--browserType=chromium", // Or 'firefox', 'webkit'
+                "--extensionDevelopmentPath=${workspaceFolder}"
+				// Add any other args needed to run, like port numbers if applicable
+            ],
+            "cwd": "${workspaceFolder}",
+			"sourceMaps": true, // Enable source maps for the test runner process itself if needed
+			"outFiles": [ // Help debugger find sourcemaps for your web extension code
+                "${workspaceFolder}/dist/web/**/*.js"
+				// "${workspaceFolder}/dist/web/**/*.js.map"
+            ],
+            "preLaunchTask": "Compile Extension (Node & Web)",
+			"internalConsoleOptions": "openOnSessionStart", // Show console for test runner output
+			"env": { // Environment variables if needed by the test runner or your extension
+                "DEBUG": "vscode-test-web" // Example: Enable verbose logging for the runner
+            }
+        },
+		{
+			// --- Debug Web Tests ---
+			// Runs the web tests defined in package.json
+			"name": "Run Extension Tests (Web)",
+			"type": "node", // We run the @vscode/test-web node script
+			"request": "launch",
+			"program": "${workspaceFolder}/node_modules/@vscode/test-web/cli.js",
+			"args": [
+				"--browserType=chromium", // Or 'firefox', 'webkit'
+				"--extensionDevelopmentPath=${workspaceFolder}",
+				"--extensionTestsPath=${workspaceFolder}/dist/web/test/suite/extensionTests.js"
+			],
+			"cwd": "${workspaceFolder}",
+			"sourceMaps": true,
+			"outFiles": [ // Help debugger find sourcemaps for your test code AND extension code
+                "${workspaceFolder}/dist/web/**/*.js"
+				// "${workspaceFolder}/dist/web/**/*.js.map"
+            ],
+			"preLaunchTask": "Compile Extension (Node & Web)",
+			"internalConsoleOptions": "openOnSessionStart"
+		}
 	]
 }

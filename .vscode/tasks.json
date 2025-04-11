@@ -1,57 +1,81 @@
-// .vscode/tasks.json - (No changes needed based on launch.json update)
+// .vscode/tasks.json
 {
 	"version": "2.0.0",
 	"tasks": [
 		{
-			// This 'watch-web' is the default build task, good for dev,
-			// but the launch config now uses 'compile' explicitly.
-			"label": "watch-web",
-			"dependsOn": [
-				"npm: watch-web:tsc",
-				"npm: watch-web:esbuild"
-			],
-			"presentation": {
-				"reveal": "never"
-			},
+			// --- Default Build Task (Compiles both Node & Web) ---
+			// Runs 'pnpm run compile'
+			// Triggered by Ctrl+Shift+B (Cmd+Shift+B on Mac) or before debugging.
+			"label": "Compile Extension (Node & Web)",
+			"type": "npm", // Assumes npm/pnpm/yarn is in PATH. Use "pnpm" if "npm" doesn't work.
+			"script": "compile",
 			"group": {
 				"kind": "build",
-				"isDefault": true // This being default is fine, launch overrides it
-			}
-		},
-		{
-			"type": "npm",
-			"script": "watch-web:esbuild",
-			"group": "build",
-			"problemMatcher": "$esbuild-watch",
-			"isBackground": true,
-			"label": "npm: watch-web:esbuild",
-			"presentation": {
-				"group": "watch",
-				"reveal": "never"
-			}
-		},
-		{
-			"type": "npm",
-			"script": "watch-web:tsc",
-			"group": "build",
-			"problemMatcher": "$tsc-watch",
-			"isBackground": true,
-			"label": "npm: watch-web:tsc",
-			"presentation": {
-				"group": "watch",
-				"reveal": "never"
-			}
-		},
-		{
-			// This is the task we referenced in launch.json's preLaunchTask
-			"label": "compile",
-			"type": "npm",
-			"script": "compile-web", // Runs 'check-types', 'lint', 'node esbuild.js'
+				"isDefault": true // Make this the default build task
+			},
 			"problemMatcher": [
-				"$tsc", // Assuming check-types uses tsc matcher
-				"$esbuild"
+				"$tsc", // Basic matcher for tsc errors from 'check-types'
+				"$eslint-compact" // Matcher for eslint errors
+				// The esbuild errors are printed clearly to the console by our plugin
 			],
-			"group": "build" // Added group for consistency (optional)
+			"detail": "Runs 'pnpm run compile' (tsc check, lint, esbuild for node & web)"
+		},
+		{
+			// --- Watch Task (Watches for changes and rebuilds) ---
+			// Runs 'pnpm run watch'
+			"label": "Watch Extension",
+			"type": "npm", // Or "pnpm"
+			"script": "watch",
+			"isBackground": true, // Task runs in the background
+			"group": "build", // Can be part of the build group
+			"problemMatcher": [
+				"$tsc-watch", // Matcher for tsc --watch output
+				"$eslint-compact",
+				"$esbuild-watch" // Built-in matcher that often works well with esbuild watch output
+			],
+			"detail": "Runs 'pnpm run watch' (tsc --watch, esbuild --watch for node & web)"
+		},
+		{
+			// --- Packaging Task (Production build) ---
+			// Runs 'pnpm run package'
+			"label": "Package Extension",
+			"type": "npm", // Or "pnpm"
+			"script": "package",
+			"group": "build",
+			"problemMatcher": [
+				"$tsc",
+				"$eslint-compact"
+			],
+			"detail": "Runs 'pnpm run package' (production build for node & web)"
+		},
+		{
+			// --- Linting Task ---
+			// Runs 'pnpm run lint'
+			"label": "Lint Code",
+			"type": "npm", // Or "pnpm"
+			"script": "lint",
+			"problemMatcher": [
+				"$eslint-compact" // Or "$eslint-stylish" depending on your formatter settings
+			],
+			"group": "build",
+			"detail": "Runs 'pnpm run lint'"
+		},
+		{
+			// --- Clean Task (Optional but Recommended) ---
+			// Deletes the dist directory. Assumes 'rimraf' or similar is installed
+			// or uses shell command.
+			// You might need to add a 'clean' script to package.json:
+			// "clean": "rimraf ./dist"
+			// or adjust the command below.
+			"label": "Clean Build Artifacts",
+			"type": "shell", // Using shell for potentially cross-platform command
+			"command": "rm -rf ${workspaceFolder}/dist", // Linux/macOS/Git Bash
+			// For Windows CMD: "command": "rd /s /q ${workspaceFolder}\\dist"
+			// For PowerShell: "command": "Remove-Item -Recurse -Force ${workspaceFolder}/dist"
+			// Consider adding 'rimraf' dev dependency for cross-platform consistency:
+			// "type": "npm", "script": "clean" -> if "clean": "rimraf ./dist" is in package.json
+			"problemMatcher": [],
+			"detail": "Removes the ./dist directory"
 		}
 	]
 }

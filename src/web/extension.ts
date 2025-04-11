@@ -2,7 +2,9 @@
 
 import * as vscode from 'vscode';
 
-// --- Helper functions (getFileNameFromUri, getExtensionFromFilename) remain the same ---
+// formatter, maybe, one day, not today tho, lol
+
+// --- Helper functions remain the same ---
 function getFileNameFromUri(uri: vscode.Uri): string {
     const pathSegments = uri.path.split('/');
     return pathSegments[pathSegments.length - 1] || '';
@@ -16,21 +18,24 @@ function getExtensionFromFilename(filename: string): string {
     return '';
 }
 
-// --- Central function to generate the markdown content (remains the same) ---
+// --- Central function to generate the markdown content remains the same ---
 async function generateMarkdownForFiles(urisToProcess: ReadonlyArray<vscode.Uri>): Promise<string | null> {
     if (urisToProcess.length === 0) {
-        return null; // No files to process
+        vscode.window.showInformationMessage('VibeCopy: No files selected.'); // Added prefix for clarity
+        return null;
     }
 
     const decoder = new TextDecoder('utf-8');
     let hasValidFiles = false;
+    // Add console log for debugging which URIs are being processed
+    console.log('[VibeCopy] Processing URIs:', urisToProcess.map(u => u.toString()));
 
     const fileContentsPromises = urisToProcess.map(async (fileUri: vscode.Uri): Promise<string | null> => {
         const filename = getFileNameFromUri(fileUri);
         try {
             const stat = await vscode.workspace.fs.stat(fileUri);
             if (stat.type !== vscode.FileType.File) {
-                console.log(`Skipping non-file item: ${fileUri.toString()}`);
+                console.log(`[VibeCopy] Skipping non-file item: ${fileUri.toString()}`);
                 return null;
             }
 
@@ -39,14 +44,15 @@ async function generateMarkdownForFiles(urisToProcess: ReadonlyArray<vscode.Uri>
             const extension = getExtensionFromFilename(filename);
             const language = extension || 'plaintext';
             hasValidFiles = true;
-            return `${filename}\n\`\`\`${language}\n${fileContent}\n\`\`\``;
+            // Simple format for easier parsing if needed later
+            return `---\nfile: ${filename}\n\`\`\`${language}\n${fileContent}\n\`\`\`\n---`;
 
         } catch (error: unknown) {
-            let errorMessage = `Failed to process file: ${filename}`;
-            if (error instanceof Error) { errorMessage += `. Reason: ${error.message}`; }
-            else { errorMessage += `. Reason: ${String(error)}`; }
-            console.error(`Error processing URI ${fileUri.toString()}:`, error);
-            return `<!-- Error reading ${filename}: ${error instanceof Error ? error.message : String(error)} -->`;
+            // Improved error logging
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            console.error(`[VibeCopy] Error processing URI ${fileUri.toString()}: ${errorMessage}`, error);
+            // Provide feedback in the output itself about which file failed
+            return `<!-- VibeCopy Error reading ${filename}: ${errorMessage} -->`;
         }
     });
 
@@ -54,72 +60,92 @@ async function generateMarkdownForFiles(urisToProcess: ReadonlyArray<vscode.Uri>
     const formattedBlocks = allResults.filter((block): block is string => block !== null);
 
     if (!hasValidFiles || formattedBlocks.length === 0) {
-        vscode.window.showWarningMessage('No valid files could be read or processed.');
+        vscode.window.showWarningMessage('VibeCopy: No valid files could be read or processed.');
         return null;
     }
 
-    if (formattedBlocks.some(block => block.startsWith('<!-- Error'))) {
-         vscode.window.showWarningMessage('Some files could not be read. Check logs or output for details.');
+    // Check for blocks that start with the specific error comment
+    if (formattedBlocks.some(block => block.startsWith('<!-- VibeCopy Error'))) {
+         vscode.window.showWarningMessage('VibeCopy: Some files could not be read. Check logs for details.');
     }
 
-    const finalContent = formattedBlocks.join('\n---\n');
-    return `---\n${finalContent}\n---`;
+    // Join blocks without the extra '---' at start/end here, add later if needed by context
+    return formattedBlocks.join('\n'); // Simpler join, add surrounding '---' in command if desired
 }
 
 
 // --- Activation Function ---
 export function activate(context: vscode.ExtensionContext) {
 
-    // Update activation message to use the new name
-    console.log('Congratulations, your extension "VibeCopy" is now active!');
+    console.log('[VibeCopy] Extension active!');
 
-    const disposable = vscode.commands.registerCommand('extension.openSelectedAsMarkdown', async (
+    // --- Register COMMAND: Copy Selected as Markdown (Desktop Only Logic) ---
+    const copyCommandDisposable = vscode.commands.registerCommand('vibecopy.copySelectedAsMarkdown', async (
         uri?: vscode.Uri,
         selectedUris?: vscode.Uri[]
     ) => {
+        // This command is only *useful* on desktop, but registration happens regardless.
+        // We rely on the `when` clause in package.json for UI visibility.
+        // We could add an explicit check, but clipboard API itself fails gracefully on web.
+        console.log('[VibeCopy] Copy command triggered.');
+
         const urisToProcess: ReadonlyArray<vscode.Uri> = selectedUris ?? (uri ? [uri] : []);
-
-        if (urisToProcess.length === 0) {
-            vscode.window.showInformationMessage('No files selected in the Explorer.');
-            return;
-        }
-
         const markdownContent = await generateMarkdownForFiles(urisToProcess);
 
         if (markdownContent === null) {
-            return;
+            return; // generateMarkdownForFiles already showed a message
         }
 
-        // Conditional Action based on Environment
-        if (vscode.env.uiKind === vscode.UIKind.Desktop) {
-            // DESKTOP: Copy to clipboard
-            try {
-                await vscode.env.clipboard.writeText(markdownContent);
-                // Adjusted message slightly
-                vscode.window.showInformationMessage('Formatted Markdown copied to clipboard!');
-            } catch (error) {
-                console.error("Failed to copy to clipboard:", error);
-                vscode.window.showErrorMessage('Failed to copy content to clipboard.');
-            }
-        } else {
-            // WEB / UNKNOWN: Open in a new untitled editor
-            try {
-                const doc = await vscode.workspace.openTextDocument({
-                    content: markdownContent,
-                    language: 'markdown'
-                });
-                await vscode.window.showTextDocument(doc, { preview: false });
-            } catch (error) {
-                console.error('Error opening final Markdown document:', error);
-                vscode.window.showErrorMessage('Failed to open the combined Markdown document.');
-            }
+        // Prepend/append '---' if desired for the final copied output
+        const finalOutput = `---\n${markdownContent}\n---`;
+
+        try {
+            await vscode.env.clipboard.writeText(finalOutput);
+            // Use a more explicit success notification
+            vscode.window.showInformationMessage('VibeCopy: Formatted Markdown copied to clipboard!');
+        } catch (error) {
+            console.error("[VibeCopy] Failed to copy to clipboard:", error);
+            vscode.window.showErrorMessage('VibeCopy: Failed to copy content to clipboard.');
         }
     });
 
-    context.subscriptions.push(disposable);
+    // --- Register COMMAND: Open Selected as Markdown (Web & Desktop) ---
+    const openCommandDisposable = vscode.commands.registerCommand('vibecopy.openSelectedAsMarkdown', async (
+        uri?: vscode.Uri,
+        selectedUris?: vscode.Uri[]
+    ) => {
+        console.log('[VibeCopy] Open command triggered.');
+
+        const urisToProcess: ReadonlyArray<vscode.Uri> = selectedUris ?? (uri ? [uri] : []);
+        const markdownContent = await generateMarkdownForFiles(urisToProcess);
+
+        if (markdownContent === null) {
+            return; // generateMarkdownForFiles already showed a message
+        }
+
+        // Prepend/append '---' if desired for the final editor content
+        const finalOutput = `<codes-list>\n${markdownContent}\n</codes-list>`;
+
+        // This action works on both Web and Desktop
+        try {
+            const doc = await vscode.workspace.openTextDocument({
+                content: finalOutput,
+                language: 'markdown'
+            });
+            await vscode.window.showTextDocument(doc, { preview: false });
+             console.log('[VibeCopy] Opened content in new editor.');
+        } catch (error) {
+            console.error('[VibeCopy] Error opening content in editor:', error);
+            vscode.window.showErrorMessage('VibeCopy: Failed to open content in editor.');
+        }
+    });
+
+    // Add BOTH command disposables to the context subscriptions
+    context.subscriptions.push(copyCommandDisposable);
+    context.subscriptions.push(openCommandDisposable);
 }
 
 // --- Deactivation Function ---
 export function deactivate() {
-    console.log('Extension "VibeCopy" deactivated.');
+    console.log('[VibeCopy] Extension deactivated.');
 }

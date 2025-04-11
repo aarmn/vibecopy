@@ -11,40 +11,56 @@
   ],
   "activationEvents": [],
   "browser": "./dist/web/extension.js",
-  "main": "./dist/web/extension.js",
+  "main": "./dist/node/extension.js",
   "publisher": "aarmn",
-  "repository": { 
+  "repository": {
     "type": "git",
     "url": "https://github.com/aarmn/vibecopy.git"
   },
   "contributes": {
     "commands": [
       {
-        "command": "extension.openSelectedAsMarkdown",
-        "title": "Open Selected as Markdown"
+        "command": "vibecopy.openSelectedAsMarkdown",
+        "title": "VibeCopy: Open Selected as Markdown",
+        "category": "VibeCopy"
+      },
+      {
+        "command": "vibecopy.copySelectedAsMarkdown",
+        "title": "VibeCopy: Copy Selected as Markdown",
+        "category": "VibeCopy"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "command": "extension.openSelectedAsMarkdown",
+          "command": "vibecopy.openSelectedAsMarkdown",
+          "group": "navigation@5"
+        },
+        {
+          "command": "vibecopy.copySelectedAsMarkdown",
+          "when": "!isWeb",
           "group": "navigation@5"
         }
       ]
     }
   },
   "scripts": {
+    "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+    "compile:web": "echo 'Running full compile...' && pnpm run compile",
+    "compile:node": "echo 'Running full compile...' && pnpm run compile",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package:web": "echo 'Running full package...' && pnpm run package",
+    "package:node": "echo 'Running full package...' && pnpm run package",
     "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/extensionTests.js",
-    "pretest": "pnpm run compile-web",
-    "vscode:prepublish": "pnpm run package-web",
-    "compile-web": "pnpm run check-types && pnpm run lint && node esbuild.js",
-    "watch-web": "npm-run-all -p watch-web:*",
-    "watch-web:esbuild": "node esbuild.js --watch",
-    "watch-web:tsc": "tsc --noEmit --watch --project tsconfig.json",
-    "package-web": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+    "pretest": "pnpm run compile",
+    "vscode:prepublish": "pnpm run package",
     "check-types": "tsc --noEmit",
     "lint": "eslint src",
-    "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. ."
+    "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. .",
+    "run-desktop-debug": "echo '>>> To debug the Desktop version: Ensure you ran `pnpm compile` first, then press F5 in VS Code. <<<'"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
