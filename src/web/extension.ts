@@ -32,7 +32,7 @@ async function generateMarkdownForFiles(urisToProcess: ReadonlyArray<vscode.Uri>
     console.log('[VibeCopy] Processing URIs:', urisToProcess.map(u => u.toString()));
 
     const fileContentsPromises = urisToProcess.map(async (fileUri: vscode.Uri): Promise<string | null> => {
-        const filename = getFileNameFromUri(fileUri);
+        const filename = vscode.workspace.asRelativePath(fileUri);// getFileNameFromUri(fileUri);
         try {
             const stat = await vscode.workspace.fs.stat(fileUri);
             if (stat.type !== vscode.FileType.File) {
