@@ -2,9 +2,9 @@
   "name": "vibecopy",
   "displayName": "VibeCopy",
   "description": "copy multiple files to context, for a faster proompting and vibe-coding experience. select files in sidebar, right click, and get the ready with path!",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
-    "vscode": "^1.99.0"
+    "vscode": "^1.90.0"
   },
   "license": "MIT",
   "categories": [
